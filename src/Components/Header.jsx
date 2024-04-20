@@ -25,12 +25,10 @@ const StyledTitle = styled(Typography)({
 
 const Header = () => {
   const navigateTo = useNavigate();
-  
 
   // importing currency-symbol & state from CryptoContext.jsx file
   const { currency, setCurrency } = CryptoState();
   // console.log(currency)
-
 
   const darkTheme = createTheme({
     palette: {
@@ -43,9 +41,8 @@ const Header = () => {
 
   return (
     <ThemeProvider theme={darkTheme}>
-         <CssBaseline /> {/*Adding CssBaseline inside of the ThemeProvider component will also enable dark mode for the app's background. */}
-
-
+      <CssBaseline />{" "}
+      {/*Adding CssBaseline inside of the ThemeProvider component will also enable dark mode for the app's background. */}
       <AppBar color="transparent" position="static">
         <Container>
           <Toolbar>
@@ -62,7 +59,6 @@ const Header = () => {
               <MenuItem value={"USD"}>USD</MenuItem>
               <MenuItem value={"INR"}>INR</MenuItem>
               {/* Add Other currencies and also make changes in CryptoContext.jsx */}
-
             </Select>
           </Toolbar>
         </Container>

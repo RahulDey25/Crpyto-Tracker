@@ -4,6 +4,7 @@ import { CryptoState } from "../CryptoContext";
 import {
   Container,
   LinearProgress,
+  Pagination,
   Table,
   TableBody,
   TableCell,
@@ -19,26 +20,35 @@ import {
 import CssBaseline from "@mui/material/CssBaseline";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { numberWithCommas } from "./Banner/Carousel";
 
 const StyledRow = styled(TableRow)({
-    flex: 1,
+  flex: 1,
+  color: "gold",
+  fontFamily: "Montserrat",
+  fontWeight: "bold",
+  backgroundColor: "#16171a",
+  cursor: "pointer",
+  "&:hover": {
+    backgroundColor: "#131111",
+  },
+});
+
+const StyledPagination = styled(Pagination)({
+  "& .MuiPaginationItem-root": {
     color: "gold",
-    fontFamily: "Montserrat",
-    fontWeight: "bold",
-    cursor: "pointer",
-  });
+  },
+});
 
 const CoinsTable = () => {
-
-    // states for updating coins, loading and searching
+  // states for updating coins, loading and searching
   const [coins, setCoins] = useState([]);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
-
+  const [page, setPage] = useState(1);
 
   // importing currency from CryptoContext to perform actions
-  const { currency } = CryptoState();
-
+  const { currency, symbol } = CryptoState();
 
   // fetching with axios coins data to list coins
   const fetchCoins = async () => {
@@ -49,12 +59,10 @@ const CoinsTable = () => {
     setLoading(false);
   };
 
-
-  // useEffect to render fetchcoins everytime currency changes 
+  // useEffect to render fetchcoins everytime currency changes
   useEffect(() => {
     fetchCoins();
   }, [currency]);
-
 
   // applying dark theme for text coloring to visible
   const darkTheme = createTheme({
@@ -102,7 +110,7 @@ const CoinsTable = () => {
           ) : (
             <Table>
               <TableHead style={{ backgroundColor: "#EEBC1D" }}>
-                <TableRow style={{ border: 'none' }}>
+                <TableRow style={{ border: "none" }}>
                   {["Coin", "Price", "24h Change", "Market Cap"].map((head) => (
                     <TableCell
                       style={{
@@ -119,34 +127,89 @@ const CoinsTable = () => {
                 </TableRow>
               </TableHead>
 
-              <TableBody>{handleSearch().map((row) => {
-                const profit = row.price_change_percentage_24h > 0;
+              <TableBody>
+                {handleSearch()
+                  .slice((page - 1) * 10, (page - 1) * 10 + 10)
+                  .map((row) => {
+                    const profit = row.price_change_percentage_24h > 0;
 
-                return (
-                    <StyledRow
-                    onClick={() => navigateTo(`/coins/${row.id}`)}
-                    key={row.name}
-                    >
-                        <TableCell component='th' scope='row'
-                        style={{display: 'flex', gap: 15, }}
+                    return (
+                      <StyledRow
+                        onClick={() => navigateTo(`/coins/${row.id}`)}
+                        key={row.name}
+                      >
+                        <TableCell
+                          component="th"
+                          scope="row"
+                          style={{ display: "flex", gap: 15 }}
                         >
-                            <img 
+                          <img
                             src={row?.image}
                             alt={row.name}
-                            height='50'
-                            style={{marginBottom: 10}}
-                             />
+                            height="50"
+                            style={{ marginBottom: 10 }}
+                          />
 
-                             {/* more to add here vdo - 1:07 */}
-
-                             
+                          <div
+                            style={{ display: "flex", flexDirection: "column" }}
+                          >
+                            <span
+                              style={{
+                                textTransform: "uppercase",
+                                fontSize: 22,
+                              }}
+                            >
+                              {row.symbol}
+                            </span>
+                            <span style={{ color: "darkgrey" }}>
+                              {row.name}
+                            </span>
+                          </div>
                         </TableCell>
-                    </StyledRow>
-                )
-              })}</TableBody>
+                        <TableCell align="right">
+                          {symbol}{" "}
+                          {numberWithCommas(row.current_price.toFixed(2))}
+                        </TableCell>
+
+                        <TableCell
+                          align="right"
+                          style={{
+                            color: profit > 0 ? "rgb(14, 203, 129" : "red",
+                            fontWeight: 500,
+                          }}
+                        >
+                          {profit && "+"}
+                          {row.price_change_percentage_24h.toFixed(2)}%
+                        </TableCell>
+
+                        <TableCell align="right">
+                          {symbol}{" "}
+                          {numberWithCommas(
+                            row.market_cap.toString().slice(0, -6)
+                          )}
+                          &nbsp;M
+                        </TableCell>
+                      </StyledRow>
+                    );
+                  })}
+              </TableBody>
             </Table>
           )}
         </TableContainer>
+
+        <StyledPagination
+          style={{
+            padding: "20",
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+          }}
+          count={(handleSearch()?.length / 10).toFixed(0)}
+          onChange={(_, value) => {
+            setPage(value);
+            window.scroll(0, 450);
+          }}
+        />
       </Container>
     </ThemeProvider>
   );
