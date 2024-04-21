@@ -139,13 +139,6 @@ const CoinPage = () => {
 
       {/* chart  */}
 
-      {/* ///1:30 */}
-
-
-
-
-      
-
       <CoinInfo coin={coin} />
     </StyledContainer>
   );
