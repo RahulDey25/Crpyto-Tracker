@@ -5,6 +5,7 @@ import Header from './Components/Header';
 import HomePage from './Pages/HomePage';
 import CoinPage from './Pages/CoinPage';
 import { styled } from '@mui/material';
+import Alert from './Components/Alert';
 
 // Define styles for the div element
 const StyledDiv = styled('div')({
@@ -25,7 +26,9 @@ function App() {
           <Route path="/coins/:id" element={<CoinPage />} />
         </Routes>
       </StyledDiv>
+      <Alert/>
     </BrowserRouter>
+    
   );
 }
 

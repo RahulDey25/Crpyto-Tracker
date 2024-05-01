@@ -13,6 +13,8 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { styled } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { CryptoState } from "../CryptoContext";
+import AuthModal from "./Authentication/AuthModal";
+import UserSidebar from "./Authentication/UserSidebar";
 
 // Title styling
 const StyledTitle = styled(Typography)({
@@ -27,7 +29,7 @@ const Header = () => {
   const navigateTo = useNavigate();
 
   // importing currency-symbol & state from CryptoContext.jsx file
-  const { currency, setCurrency } = CryptoState();
+  const { currency, setCurrency, user } = CryptoState();
   // console.log(currency)
 
   const darkTheme = createTheme({
@@ -60,6 +62,8 @@ const Header = () => {
               <MenuItem value={"INR"}>INR</MenuItem>
               {/* Add Other currencies and also make changes in CryptoContext.jsx */}
             </Select>
+
+            {user ? <UserSidebar /> : <AuthModal />}
           </Toolbar>
         </Container>
       </AppBar>

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { CoinList } from "../config/api";
 import { CryptoState } from "../CryptoContext";
 import {
   Container,
@@ -18,7 +17,6 @@ import {
   styled,
 } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { numberWithCommas } from "./Banner/Carousel";
 
@@ -41,23 +39,12 @@ const StyledPagination = styled(Pagination)({
 });
 
 const CoinsTable = () => {
-  // states for updating coins, loading and searching
-  const [coins, setCoins] = useState([]);
-  const [loading, setLoading] = useState(false);
+  // states for updating searching
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
 
   // importing currency from CryptoContext to perform actions
-  const { currency, symbol } = CryptoState();
-
-  // fetching with axios coins data to list coins
-  const fetchCoins = async () => {
-    setLoading(true);
-    const { data } = await axios.get(CoinList(currency));
-
-    setCoins(data);
-    setLoading(false);
-  };
+  const { currency, symbol, coins, loading, fetchCoins } = CryptoState();
 
   // useEffect to render fetchcoins everytime currency changes
   useEffect(() => {
