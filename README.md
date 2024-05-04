@@ -20,7 +20,7 @@
 ## Introduction
 Welcome to our React Vite-powered Cryptocurrency Tracker! Stay updated on the latest trends and prices of digital assets effortlessly. Dive into the world of crypto with real-time data and intuitive user interface. Let's explore together!
 
-![Cryptocurrency Tracker](https://github.com/RahulDey25/flashcard_generator/blob/main/src/Assets/GIF.gif)
+![Cryptocurrency Tracker](https://github.com/RahulDey25/Crpyto-Tracker/blob/main/src/Assets/GIF.gif)
 
 
 ## Features
