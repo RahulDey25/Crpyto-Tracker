@@ -81,7 +81,7 @@ Contributions are welcome! If you'd like to contribute, please follow our [Contr
 This project is Distributed under the ISC License. See [LICENSE](./LICENSE.txt) for more information.
 
 
-# Getting Started with Create React App
+# Getting Started with Create Vite + React App
 
 This project was bootstrapped with [Create Vite + React App](https://github.com/vitejs/vite).
 
